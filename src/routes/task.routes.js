@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { requireTokenAuth } from "../middlewares/validateToken";
-import { createTask, deleteTask, getTask, getTasks, updateTask } from "../controllers/task.controller";
+import { requireTokenAuth } from "../middlewares/validateToken.js";
+import { createTask, deleteTask, getTask, getTasks, updateTask } from "../controllers/task.controller.js";
 
 import { schemaValidator } from "../middlewares/schemaValidor.js";
 import { createTaskSchema } from "../schemas/task.schema.js";
