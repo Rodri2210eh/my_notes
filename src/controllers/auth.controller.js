@@ -4,8 +4,11 @@ import { createAccessToken } from "../libs/my_jwt.js";
 
 export const register = async (req, res) => {
     console.log(req.body);
-    const {email, password, username} = req.body
+    const { email, password, username } = req.body
     try {
+        const userFound = User.findOne({ email })
+        if (userFound) return res.status(400).json(['Email already exists']);
+
         const hashPasword = await bcrypt.hash(password, 10);
         const newUser = new User({
             username,
@@ -15,7 +18,7 @@ export const register = async (req, res) => {
         const userSaved = await newUser.save();
         console.log("Registro exitoso");
 
-        const token = await createAccessToken({id: userSaved._id});
+        const token = await createAccessToken({ id: userSaved._id });
 
         res.cookie('token', token);
         res.json({
@@ -26,24 +29,24 @@ export const register = async (req, res) => {
             updateAt: userSaved.updatedAt,
         });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 };
 
 export const login = async (req, res) => {
     console.log(req.body);
-    const {email, password} = req.body
+    const { email, password } = req.body
     try {
 
-        const findUser = await User.findOne({email})
+        const findUser = await User.findOne({ email })
 
-        if (!findUser) return res.status(400).json({message: "User don't exist"})
+        if (!findUser) return res.status(400).json({ message: "User don't exist" })
 
         const isCorrect = await bcrypt.compare(password, findUser.password);
 
-        if (!isCorrect) return res.status(400).json({message: "Invalid credentials"})
+        if (!isCorrect) return res.status(400).json({ message: "Invalid credentials" })
 
-        const token = await createAccessToken({id: findUser._id});
+        const token = await createAccessToken({ id: findUser._id });
 
         res.cookie('token', token);
         res.json({
@@ -54,19 +57,19 @@ export const login = async (req, res) => {
             updateAt: findUser.updatedAt,
         });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 };
 
 export const logout = (req, res) => {
-    res.cookie("token", "",{
+    res.cookie("token", "", {
         expires: new Date(0)
     });
     res.sendStatus(200);
 }
 
-export const profile = async (req, res) =>{
+export const profile = async (req, res) => {
     const userFound = await User.findById(req.user.id)
 
-    if (!userFound) return res.status(400).json({message: "User not found"});
+    if (!userFound) return res.status(400).json({ message: "User not found" });
 }
