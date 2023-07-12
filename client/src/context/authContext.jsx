@@ -48,6 +48,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const logout = () => {
+        Cookies.remove("token");
+        setUser(null);
+        setIsAuthenticated(false);
+      };
+
     useEffect(() => {
         const checkLogin = async () => {
             const cookies = Cookies.get();
@@ -81,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ signUp, signIn, user, isAuthenticated, errors, loading }}>
+        <AuthContext.Provider value={{ signUp, signIn, logout, user, isAuthenticated, errors, loading }}>
             {children}
         </AuthContext.Provider>
     );

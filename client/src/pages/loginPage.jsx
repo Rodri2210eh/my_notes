@@ -10,9 +10,9 @@ function LoginPage() {
     const { signIn, errors: loginErrors, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
-    /* useEffect(() => {
+    useEffect(() => {
         if (isAuthenticated) navigate('/tasks');
-    }, [isAuthenticated]); */
+    }, [isAuthenticated]);
 
     const onSubmit = handleSubmit(async (data) => {
         signIn(data)
