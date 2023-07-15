@@ -1,36 +1,85 @@
 import { useForm } from "react-hook-form";
 import { useTasks } from "../context/tasksContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { Button, Card, Input, Label } from "../components/generalComponents";
+import { Textarea } from "../components/generalComponents/Textarea";
+
+dayjs.extend(utc);
 
 function TaskFormPage() {
-    const { register, handleSubmit } = useForm();
-    const { createTask } = useTasks();
+    const { register, handleSubmit, setValue, formState: { errors }, } = useForm();
+    const { createTask, getTask, updateTask } = useTasks();
     const navigate = useNavigate();
+    const params = useParams();
+
+    useEffect(() => {
+        const loadTask = async () => {
+            if (params.id) {
+                const task = await getTask(params.id);
+                setValue("title", task.title);
+                setValue("description", task.description);
+                setValue(
+                    "date",
+                    task.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : ""
+                );
+                setValue("completed", task.completed);
+            }
+        };
+        loadTask();
+    });
 
     const onSubmit = handleSubmit((data) => {
-        createTask(data);
-        navigate('/tasks');
+        try {
+            if (params.id) {
+                updateTask(params.id, {
+                    ...data,
+                    date: dayjs.utc(data.date).format(),
+                });
+            } else {
+                createTask({
+                    ...data,
+                    date: dayjs.utc(data.date).format(),
+                });
+            }
+            navigate('/tasks');
+        } catch (error) {
+            console.log(error);
+        }
     });
 
     return (
-        <div className="h-[calc(100vh-100px)] flex items-center justify-center">
-            <div className="bg-zinc-800 max-w-md w-full p-8 rounded-md">
-                <h1 className="text-2xl font-bold my-1">New Note</h1>
-                <form onSubmit={onSubmit}>
-                    <input type="text" placeholder="Title"
-                        {...register("title")}
-                        autoFocus
-                        className="w-full bg-zinc-700 text-white px-4 py-4 rounded-md my-2"
-                    />
-                    <textarea rows="3" placeholder="Description"
-                        {...register("description")}
-                        className="w-full bg-zinc-700 text-white px-4 py-4 rounded-md my-2"
-                    />
-                    <button className="bg-slate-700 px-4 py-1 rounded-sm">Save</button>
-                </form>
-            </div>
-        </div>
+        <Card>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Label htmlFor="title">Title</Label>
+                <Input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    {...register("title")}
+                    autoFocus
+                />
+                {errors.title && (
+                    <p className="text-red-500 text-xs italic">Please enter a title.</p>
+                )}
+
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                    name="description"
+                    id="description"
+                    rows="3"
+                    placeholder="Description"
+                    {...register("description")}
+                ></Textarea>
+
+                <Label htmlFor="date">Date</Label>
+                <Input type="date" name="date" {...register("date")} />
+                <Button>Save</Button>
+            </form>
+        </Card>
     )
 }
 

@@ -3,6 +3,8 @@ import { useAuth } from "../context/authContext";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+import { Card, Message, Button, Input, Label } from "../components/generalComponents";
+
 function RegisterPage() {
     const { register, handleSubmit, formState: { errors }, } = useForm();
     const { signUp, isAuthenticated, errors: registerErrors } = useAuth();
@@ -17,34 +19,64 @@ function RegisterPage() {
     });
     return (
         <div className="h-[calc(100vh-100px)] flex items-center justify-center">
-            <div className="bg-zinc-800 max-w-md p-10 rounded-md">
-                {
-                    registerErrors.map((error, i) => (
-                        <div className="bg-red-500 p-2 text-white text-center" key={i}>
-                            {error}
-                        </div>
-                    ))
-                }
-                <h1 className="text-2xl font-bold">Register</h1>
-                <form onSubmit={onSubmit}>
-                    <input type="text" {...register('username', { required: true, minLength: 5 })} className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" placeholder="Username" />
-                    {
-                        errors.username && (<p className="text-red-500">Username is required</p>)
-                    }
-                    <input type="email" {...register('email', { required: true })} className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" placeholder="Email" />
-                    {
-                        errors.email && (<p className="text-red-500">Email is required</p>)
-                    }
-                    <input type="password" {...register('password', { required: true, minLength: 8 })} className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" placeholder="Password" />
-                    {
-                        errors.password && (<p className="text-red-500">Password is required</p>)
-                    }
-                    <button type="submit">Register</button>
+            <Card>
+                {registerErrors.map((error, i) => (
+                    <Message message={error} key={i} />
+                ))}
+                <h1 className="text-3xl font-bold">Register</h1>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Label htmlFor="username">Username:</Label>
+                    <Input
+                        type="text"
+                        name="username"
+                        placeholder="Write your name"
+                        {...register("username")}
+                        autoFocus
+                    />
+                    {errors.username?.message && (
+                        <p className="text-red-500">{errors.username?.message}</p>
+                    )}
+
+                    <Label htmlFor="email">Email:</Label>
+                    <Input
+                        name="email"
+                        placeholder="youremail@domain.tld"
+                        {...register("email")}
+                    />
+                    {errors.email?.message && (
+                        <p className="text-red-500">{errors.email?.message}</p>
+                    )}
+
+                    <Label htmlFor="password">Password:</Label>
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="********"
+                        {...register("password")}
+                    />
+                    {errors.password?.message && (
+                        <p className="text-red-500">{errors.password?.message}</p>
+                    )}
+
+                    <Label htmlFor="confirmPassword">Confirm Password:</Label>
+                    <Input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="********"
+                        {...register("confirmPassword")}
+                    />
+                    {errors.confirmPassword?.message && (
+                        <p className="text-red-500">{errors.confirmPassword?.message}</p>
+                    )}
+                    <Button>Submit</Button>
                 </form>
-                <p className="flex gap-x-2 justify-between">
-                    Already have an account? <Link to="/login" className="text-sky-500">Login</Link>
+                <p>
+                    Already Have an Account?
+                    <Link className="text-sky-500" to="/login">
+                        Login
+                    </Link>
                 </p>
-            </div>
+            </Card>
         </div>
     );
 }
