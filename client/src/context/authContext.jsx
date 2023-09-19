@@ -41,6 +41,8 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await loginRequest(user);
             setUser(res.data);
+            console.log(res.data);
+            console.log(user)
             setIsAuthenticated(true);
         } catch (error) {
             if (Array.isArray(error.response.data)) return setErrors(error.response.data);
@@ -52,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         Cookies.remove("token");
         setUser(null);
         setIsAuthenticated(false);
-      };
+    };
 
     useEffect(() => {
         const checkLogin = async () => {

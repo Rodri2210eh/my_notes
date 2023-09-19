@@ -20,7 +20,7 @@ function LoginPage() {
     });
 
     return (
-        <div className="h-[calc(100vh-100px)] flex items-center justify-center">
+        <div className="h-[calc(100vh-100px)] flex items-start justify-center mt-48">
             <Card>
                 {loginErrors.map((error, i) => (
                     <Message message={error} key={i} />
@@ -51,7 +51,7 @@ function LoginPage() {
                 </form>
 
                 <p className="flex gap-x-2 justify-between">
-                    Don't have an account? <Link to="/register" className="text-sky-500">Sign up</Link>
+                    Don't have an account? <Link to="/register" className="text-[#f98866]"> Sign up</Link>
                 </p>
             </Card>
         </div>

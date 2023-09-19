@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useTasks } from "../context/tasksContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-
+import { MdOutlineSaveAs } from "react-icons/md";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { Button, Card, Input, Label } from "../components/generalComponents";
@@ -77,7 +77,7 @@ function TaskFormPage() {
 
                 <Label htmlFor="date">Date</Label>
                 <Input type="date" name="date" {...register("date")} />
-                <Button>Save</Button>
+                <Button className= "text-2xl"><MdOutlineSaveAs className="text-2xl" /></Button>
             </form>
         </Card>
     )

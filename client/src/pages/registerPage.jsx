@@ -3,7 +3,7 @@ import { useAuth } from "../context/authContext";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Card, Message, Button, Input, Label } from "../components/generalComponents";
+import { Card, Message, Button, Input, Label, ButtonLink } from "../components/generalComponents";
 
 function RegisterPage() {
     const { register, handleSubmit, formState: { errors }, } = useForm();
@@ -18,7 +18,7 @@ function RegisterPage() {
         signUp(data);
     });
     return (
-        <div className="h-[calc(100vh-100px)] flex items-center justify-center">
+        <div className="h-[calc(100vh-100px)] flex items-start justify-center mt-48">
             <Card>
                 {registerErrors.map((error, i) => (
                     <Message message={error} key={i} />
@@ -71,9 +71,9 @@ function RegisterPage() {
                     <Button>Submit</Button>
                 </form>
                 <p>
-                    Already Have an Account?
-                    <Link className="text-sky-500" to="/login">
-                        Login
+                    Already Have an Account? 
+                    <Link className="text-[#f98866]" to="/login">
+                         Login
                     </Link>
                 </p>
             </Card>

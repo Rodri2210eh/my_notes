@@ -10,15 +10,17 @@ import { TasksPage } from "./pages/taskPage";
 import ProfilePage from "./pages/profilePage";
 
 import ProtectedRoute from "./ProtectedRoute";
-import { Navbar } from "./components/NavBar";
+import { Header } from "./components/Header";
+import { Slidebar } from "./components/SlideBar";
 
 function App() {
   return (
     <AuthProvider>
+      <Slidebar />
       <TasksProvider>
+        <Header />
         <BrowserRouter>
-          <main className="container content-container mx-auto px-10 md:px-0">
-            <Navbar />
+          <main className="container content-container mx-auto px-10 md:px-0 bg">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
@@ -27,7 +29,7 @@ function App() {
                 <Route path="/tasks" element={<TasksPage />} />
                 <Route path="/add-task" element={<TaskFormPage />} />
                 <Route path="/tasks/:id" element={<TaskFormPage />} />
-                <Route path="/profile" element={<h1>Profile</h1>} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Route>
             </Routes>
           </main>
