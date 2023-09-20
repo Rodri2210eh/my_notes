@@ -1,9 +1,9 @@
-# my_notes
+# 🐱‍🏍🐱‍👤🐱‍💻 my_notes
 ## 🚀 Como ejecutarlo en local
 
 Necesitarás tener instalado ``` node.js ```, ```mongoDB```, ```github``` y tener acceso a una terminal para seguir los siguientes pasos:
 >
-### Levantar el servidor
+### 🐱‍👓Levantar el servidor
 >
 1. Necesitamos clonar el proyecto añadiendo la siguiente linea de comando en una terminal
 ```
@@ -27,7 +27,7 @@ npm run dev
 ```
 con esto habriamos levantado el servidor
 >
-### Levantar frontend
+### 🐱‍🚀Levantar frontend
 >
 1. Ingresar a la carpeta client dentro de nuestro proyecto
 >
