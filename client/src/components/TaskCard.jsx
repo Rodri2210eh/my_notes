@@ -16,7 +16,16 @@ export function TaskCard({ task }) {
                 </div>
             </header>
             <p className="text-slate-300">{task.description}</p>
-            <p>{new Date(task.date).toLocaleDateString()}</p>
+            {/* format date */}
+            <p>
+                {task.deadline &&
+                    new Date(task.deadline).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })}
+            </p>
         </Card>
     );
 }
